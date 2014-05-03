@@ -1,0 +1,18 @@
+<% if(@links.count > 0) %>
+  <table class="table table-bordered" id="search-result">
+    <thead>
+      <tr><td>Select</td><td>Title</td></tr>
+    </thead>
+    <tbody>
+      <% if(@links) %>
+      <% @links.each do |link| %>
+      <tr>
+        <td><input type="checkbox" class="link_checkbox" value="<%= link["URL"] %>"></td>
+        <td><%= link["title"].html_safe  %></td>
+      </tr>
+      <% end %>
+      <% end %>
+    </tbody>
+  </table>
+  <a href="#" id="download" class="btn btn-success">Download</a>
+<% end %>
