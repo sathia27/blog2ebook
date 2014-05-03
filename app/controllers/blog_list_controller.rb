@@ -12,42 +12,13 @@ class BlogListController < ApplicationController
   def fetch
     @links = nil
     if(params[:links])
-      domain, links = BlogService.new(params[:links][0]).fetch(params[:links])
-      Dir.mkdir "public/" + domain unless Dir.exists? "public/" + domain
-      i = 1
-      links.each do |link|
-        f = File.open("public/"+domain+"/file#{i}.html", "w")
-        content =  "<html><head></head><body>" + link["content"].strip + "</body></html>"
-        f.write(content)
-        f.close
-        i += 1
-      end
-      builder = GEPUB::Builder.new {
-        language 'en'
-        unique_identifier domain, 'BookID', domain
-        title 'GEPUB Sample Book'
-        subtitle 'This book is just a sample'
-
-        creator 'KOJIMA Satoshi'
-
-        contributors 'Denshobu', 'Asagaya Densho', 'Shonan Densho Teidan', 'eMagazine Torutaru'
-
-        date '2012-02-29T00:00:00Z'
-
-        resources(:workdir => "public/#{domain}/") {
-          ordered {
-            j = 1
-            links.each do |link|
-              file "file#{j}.html"
-              heading link["title"]
-              j += 1
-            end
-          }
-        }
-      }
-      epubname = "public/#{domain}/site.epub"
-      puts epubname.inspect
-      builder.generate_epub(epubname).inspect
+      domain, posts = BlogService.new(params[:links][0]).fetch(params[:links])
+      domain_folder = "public/ebooks/" + domain
+      ebooks_html_folder = "ebooks/" + domain + "/html/"
+      Dir.mkdir domain_folder unless Dir.exists? domain_folder
+      Dir.mkdir domain_folder + "/html" unless Dir.exists? domain_folder + "/html"
+      HtmlGenerator.new(posts, domain_folder).generate
+      EbookBuilder.new(posts, domain_folder, ebooks_html_folder, domain).build
     end
     render :json => @links
   end

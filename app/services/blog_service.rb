@@ -8,7 +8,7 @@ class BlogService
   end
 
   def detect_blog_type
-    hostname = URI.parse(@url).host.downcase
+    hostname = URI.parse(URI.encode(@url)).host.downcase
     if(hostname[".wordpress."])
       @blog_type = "wordpress"
     elsif(hostname[".blogger."])
