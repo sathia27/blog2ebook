@@ -14,7 +14,7 @@ class BlogListController < ApplicationController
     if(params[:links])
       domain, posts = BlogService.new(params[:links][0]).fetch(params[:links])
       domain_folder = "public/ebooks/" + domain
-      ebooks_html_folder = "ebooks/" + domain + "/html/"
+      ebooks_html_folder = "ebooks/" + domain + "/html"
       Dir.mkdir domain_folder unless Dir.exists? domain_folder
       Dir.mkdir domain_folder + "/html" unless Dir.exists? domain_folder + "/html"
       HtmlGenerator.new(posts, domain_folder).generate
