@@ -8,7 +8,7 @@ class HtmlGenerator
     i = 1
     @posts.each do |post|
       f = File.open("#{@domain_folder}/html/file#{i}.html", "w")
-      content =  "<html xmlns='http://www.w3.org/1999/xhtml'><head></head><body>" + post["content"].strip + "</body></html>"
+      content =  "<html xmlns='http://www.w3.org/1999/xhtml'><head><title>" + post.title + "</title></head><body><h1>" + post.title + "</h1><div>" + post.content.gsub("&nbsp;", "").strip + "</div></body></html>"
       f.write(content)
       f.close
       i += 1

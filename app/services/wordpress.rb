@@ -1,40 +1,31 @@
-class Wordpress
-  def initialize url
-    @domain = url
-    @url = "https://public-api.wordpress.com/rest/v1/sites/#{url}/posts"
+class Wordpress < BlogWorker
+  def initialize blog 
+    @blog = blog
+    @url = "https://public-api.wordpress.com/rest/v1/sites/#{blog.name}/posts"
   end
 
-  def title_list
-    post_result_from_redis = $redis.get(@domain)
-    return JSON.parse(post_result_from_redis) if(post_result_from_redis)
+  def posts
     posts_result = []
     json_page = blog_request @url
     found_count = JSON.parse(json_page.body)["found"]
     if(found_count)
-     (1..(found_count/20+1)).each do |page|
-        puts page.to_s
+      (1..(found_count/20+1)).each do |page|
         posts = blog_request @url+"?page="+page.to_s
         posts = JSON.parse(posts.body)
-        if(posts["posts"])
-          posts = posts["posts"].map { |h| h.slice("URL", "title", "content") }
-          posts_result += posts
+        posts["posts"].each do |post|
+          blog = BlogPost.find_or_create_by(blog_url: post["URL"])
+          categories = post["categories"].keys
+          blog.update_attributes({ title: post["title"], content: post["content"], categories: categories, blog_id: @blog.id.to_s })
         end
       end
+      @blog.posts_count = found_count
+      @blog.downloaded = true
+      @blog.save
+    else
+      @blog.error_found = true
+      @blog.save
     end
-    $redis.set(@domain, posts_result.to_json)
     posts_result
   end
-
-  def fetch urls
-    post_result_from_redis = $redis.get(@domain)
-    if(post_result_from_redis)
-      post_results = JSON.parse(post_result_from_redis)
-      post_results = post_results.select {|post| urls.include?(post["URL"])}
-    end
-  end
-
- def blog_request url
-    Net::HTTP.get_response(URI.parse(URI.encode(url)))
- end
 
 end

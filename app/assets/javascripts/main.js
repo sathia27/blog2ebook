@@ -1,41 +1,45 @@
 $(document).ready(function(){
-  $("#notify").hide();
-  $("#search_form").submit(function(){
-    $("div.main_content").html();
-    search_val = $("#search_field").val();
-    $.ajax({
-      url: "/blog_list/search?url="+search_val,
-      beforeSend: function(){
-        $("#notify").show();
-        $("#search_button").attr("disabled", "disabled");
-      },
-      success: function(data){
-        $("#notify").hide();
-        $("div.main_content").html(data);
-        $("#search_button").removeAttr("disabled");
-        load_fetch_link_form();
-      }
-    });
-    return false;
+  $('#search-result').dataTable({
+      "columnDefs": [
+          {
+              "targets": [ 1 ],
+              "visible": false
+          }
+      ],
   });
-});
-
-function load_fetch_link_form(){
-  var table = $('div.main_content table').dataTable();
-  links = [];
-  $(".link_checkbox").change(function(){
-    links.push($(this).val());
+  var table = $('#search-result').DataTable();
+  var rowcollection =  table.$(".link_checkbox", {"page": "all"});
+  $('#search-result tbody').on( 'change', 'input.link_checkbox', function () {
+    $(this).parents('tr').toggleClass('selected');
   });
-  $("#download").click(function(){
-    if(links.length > 0){
-      $.ajax({
-        url: "/blog_list/fetch",
-        data: {links: links},
-        success: function(data){
-          console.log(data);
-        }
+  $("#search-result").on('change', '#select_all', function(){
+    if($(this).is(":checked")){
+      rowcollection.each(function(){
+        $(this).prop("checked", true);
+        $(this).parents("tr").addClass("selected");
+      });
+    } else{
+      rowcollection.each(function(){
+        $(this).prop("checked", false);
+        $(this).parents("tr").removeClass("selected");
       });
     }
-    return false;
   });
-}
+
+  $('#download_epub').submit( function () {
+    posts = [];
+    data = table.rows('.selected').data();
+    total_len = data.length;
+    alert(total_len);
+    for(var i=0;i<total_len;i++){
+      posts.push(data[i][1]);
+    }
+    if(posts.length===0){
+      alert("Select atleast one of the post");
+      return false;
+    } else{
+      post_ids = posts.join(); 
+      $("#post_ids").val(post_ids);
+    }
+  });
+});

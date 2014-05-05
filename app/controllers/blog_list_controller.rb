@@ -4,9 +4,14 @@ class BlogListController < ApplicationController
 
   def search
     if params[:url]
-      @links = BlogService.new(params[:url]).title_list
+      blog_hostname = BlogService.new(params[:url]).detect_blog_type
+      blog = Blog.where(name: blog_hostname).first
+      if blog.downloaded
+        @posts = blog.blog_posts if blog
+      else
+        BlogService.new(params[:url]).title_list unless blog.downloaded
+      end
     end
-    render :layout => false
   end
 
   def fetch

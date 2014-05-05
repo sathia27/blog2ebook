@@ -13,8 +13,7 @@ gem 'coffee-rails', '~> 4.0.0'
 # gem 'therubyracer',  platforms: :ruby
 gem "mongo"
 gem "bson_ext"
-gem "mongoid"
-
+gem 'mongoid', git: 'https://github.com/mongoid/mongoid.git'
 gem 'nokogiri'
 gem 'simple-rss'
 gem 'redis'
@@ -28,7 +27,6 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 gem 'simple_form'
-gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
 group :development do
   gem 'guard-livereload', require: false
 end

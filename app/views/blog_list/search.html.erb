@@ -1,18 +1,22 @@
-<% if(@links.count > 0) %>
-  <table class="table table-bordered" id="search-result">
+<h1>Posts</h1>
+<% if(@posts.count > 0) %>
+  <p>There are <%= @posts.count %> posts. You can select post and download as epub file</p>
+  <table class="table table-bordered table-responsive" id="search-result">
     <thead>
-      <tr><td>Select</td><td>Title</td></tr>
+      <tr><td><input type="checkbox" id="select_all" /></td><td>id</td><td>Title</td></tr>
     </thead>
     <tbody>
-      <% if(@links) %>
-      <% @links.each do |link| %>
+      <% @posts.each do |post| %>
       <tr>
-        <td><input type="checkbox" class="link_checkbox" value="<%= link["URL"] %>"></td>
-        <td><%= link["title"].html_safe  %></td>
+        <td><input type="checkbox" class="link_checkbox"></td>
+        <td><%= post.id.to_s %></td>
+        <td><%= post.title.html_safe  %></td>
       </tr>
-      <% end %>
       <% end %>
     </tbody>
   </table>
-  <a href="#" id="download" class="btn btn-success">Download</a>
+  <form method="POST" action="/blog_posts/generate_epub" id="download_epub">
+    <input type="hidden" name="ids" id="post_ids" />
+    <input type="submit" id="results" class="btn btn-success" value="Download as Epub" />
+  </form>
 <% end %>

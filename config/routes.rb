@@ -1,12 +1,13 @@
 Rails.application.routes.draw do
+  post 'blog_posts/generate_epub'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   root 'blog_list#index'
-  get "blog_list/search"
-  get "blog_list/fetch"
+  post "blog_list/search"
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

@@ -19,13 +19,8 @@ class BlogService
 
   def title_list
     if @blog_type == "wordpress"
-      Wordpress.new(@domain).title_list
-    end
-  end
-
-  def fetch links
-    if @blog_type == "wordpress"
-      domain, links = [@domain, Wordpress.new(@domain).fetch(links)]
+      blog = Blog.find_or_create_by(name: @domain)
+      Wordpress.new(blog).posts
     end
   end
 
