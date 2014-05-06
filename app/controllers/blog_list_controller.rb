@@ -1,30 +1,19 @@
-class BlogListController < ApplicationController
-  def index
-  end
+class BlogsController < ApplicationController
 
   def search
+  end
+
+  def posts
     if params[:url]
       blog_hostname = BlogService.new(params[:url]).detect_blog_type
       blog = Blog.where(name: blog_hostname).first
-      if blog.downloaded
+      if blog && blog.downloaded
         @posts = blog.blog_posts if blog
       else
-        BlogService.new(params[:url]).title_list unless blog.downloaded
+        BlogService.new(params[:url]).delay.title_list
       end
     end
   end
 
-  def fetch
-    @links = nil
-    if(params[:links])
-      domain, posts = BlogService.new(params[:links][0]).fetch(params[:links])
-      domain_folder = "public/ebooks/" + domain
-      ebooks_html_folder = "ebooks/" + domain + "/html"
-      Dir.mkdir domain_folder unless Dir.exists? domain_folder
-      Dir.mkdir domain_folder + "/html" unless Dir.exists? domain_folder + "/html"
-      HtmlGenerator.new(posts, domain_folder).generate
-      EbookBuilder.new(posts, domain_folder, ebooks_html_folder, domain).build
-    end
-    render :json => @links
-  end
+
 end

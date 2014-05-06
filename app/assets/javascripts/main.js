@@ -30,7 +30,6 @@ $(document).ready(function(){
     posts = [];
     data = table.rows('.selected').data();
     total_len = data.length;
-    alert(total_len);
     for(var i=0;i<total_len;i++){
       posts.push(data[i][1]);
     }
@@ -42,4 +41,31 @@ $(document).ready(function(){
       $("#post_ids").val(post_ids);
     }
   });
+
+  $("#search_form").submit(function(){
+    $("#search_button").button("loading");
+    var website_url = $("#search_field").val();
+    setInterval(function(){is_blog_downloaded(website_url);}, 3000);
+    return false;
+  });
+
+  function is_blog_downloaded(website_url){
+    $.ajax({
+      url: "/blogs/downloaded",
+      data: {url: website_url},
+      error: function(){
+        alert("Something went wrong");
+        location.href = document.URL;
+      },
+      success: function(data, textStatus, xhr){
+        if(data.status){
+          $("#search_button").data("loading-text", "Redirecting..");
+          location.href="/blogs/posts?url=" + website_url;
+        } else{
+          $("#search_button").data("loading-text", "Downloading..");
+        }
+      }
+    });
+  }
+
 });

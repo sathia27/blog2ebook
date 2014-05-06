@@ -1,12 +1,12 @@
 <div class="col-sm-12 col-md-12">
   <div class="col-md-6 col-md-offset-3">
     <h3 class="welcome-note">Convert your favourite blog into epub</h3>
-      <%= form_tag('/blog_list/search', {method: "POST", role: "form", id: "search_form"}) do %>
+    <p class="welcome-note-tag">(Currently available for wordpress blog)</p>
+      <%= form_tag('/', { method: "GET", role: "form", id: "search_form"}) do %>
         <div class="form-group">
           <%= text_field_tag "url", nil, class: 'form-control', id: "search_field", required: 'true' %>
         </div>
-        <%= submit_tag 'search', class: "btn btn-success pull-left col-md-4 col-md-offset-4", id: "search_button" %>
-        <img src="/assets/loading.gif" class="spinner" id="notify"/>
+        <%= submit_tag 'search', class: "btn btn-success pull-left col-md-4 col-md-offset-4", id: "search_button", :"data-loading-text" => "Please wait.." %>
       <% end %>
   </div>
   <div class="main_content"></div>
