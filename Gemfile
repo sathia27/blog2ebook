@@ -32,6 +32,11 @@ gem 'simple_form'
 group :development do
   gem 'guard-livereload', require: false
 end
+group :production do
+  gem 'execjs'
+  gem 'therubyracer'
+end
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
