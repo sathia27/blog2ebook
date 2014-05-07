@@ -45,9 +45,20 @@ $(document).ready(function(){
   $("#search_form").submit(function(){
     $("#search_button").button("loading");
     var website_url = $("#search_field").val();
+    start_scrapping(website_url);
     setInterval(function(){is_blog_downloaded(website_url);}, 3000);
     return false;
   });
+
+  function start_scrapping(website_url){
+    $.ajax({
+      url: "/blogs/scrap",
+      type: "POST",
+      data: {url: website_url},
+      success: function(data, textStatus, xhr){
+      }
+    });
+  }
 
   function is_blog_downloaded(website_url){
     $.ajax({

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   root 'blogs#index'
   get "blogs/posts"
   get "blogs/downloaded"
+  post "blogs/scrap"
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
