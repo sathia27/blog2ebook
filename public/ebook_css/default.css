@@ -113,7 +113,7 @@ img.cover {
 blockquote,pre {
   background: #f7f7f7;
   color: #222;
-  line-height: 18px;
+  line-height: 1.1em;
   margin-bottom: 18px;
   overflow: auto;
   font-size: 0.8em;
