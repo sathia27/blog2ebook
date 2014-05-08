@@ -1,4 +1,4 @@
-require "rmagick"
+require "RMagick"
 include Magick
 class CoverPageGenerator
   def initialize blog
