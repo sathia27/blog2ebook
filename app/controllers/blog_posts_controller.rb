@@ -8,11 +8,10 @@ class BlogPostsController < ApplicationController
       domain = posts.first.blog.name
       links = posts.collect(&:blog_url)
       domain_folder = "public/ebooks/" + domain
-      ebooks_html_folder = "ebooks/" + domain + "/html"
       Dir.mkdir domain_folder unless Dir.exists? domain_folder
       Dir.mkdir domain_folder + "/html" unless Dir.exists? domain_folder + "/html"
       HtmlGenerator.new(posts, domain_folder).generate
-      EbookBuilder.new(posts, domain_folder, ebooks_html_folder, domain).build
+      EbookBuilder.new(posts).build
       send_file "#{Rails.public_path}/ebooks/#{domain}/site.epub", :filename => "site.epub"
     else
       render :json => false
