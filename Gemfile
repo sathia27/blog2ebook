@@ -22,6 +22,7 @@ gem 'gepub'
 gem 'delayed_job_mongoid', git: 'git://github.com/collectiveidea/delayed_job_mongoid.git'
 gem 'daemons'
 gem "sanitize"
+gem "rmagick"
 # gem 'therubyracer',  platforms: :ruby
 
 gem 'jquery-rails'
