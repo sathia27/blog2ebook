@@ -4,18 +4,23 @@
     <p class="welcome-note-tag">(Currently available for wordpress blog)</p>
       <%= form_tag('/', { method: "GET", role: "form", id: "search_form"}) do %>
         <div class="form-group">
+          <%= label_tag "Blog url" %>
           <%= text_field_tag "url", nil, class: 'form-control', id: "search_field", required: 'true', placeholder: "Eg. sathia27.wordpress.com" %>
         </div>
         <div class="form-group">
+          <%= label_tag "Book name" %>
           <%= text_field_tag "blog[book_name]", nil, class: 'form-control', required: 'true', placeholder: "Ebook name. eg. Ruby on rails blog" %>
         </div>
         <div class="form-group">
+          <%= label_tag "Publisher name" %>
           <%= text_field_tag "blog[publisher]", nil, class: 'form-control', required: 'true', placeholder: "Your name. eg. Sathia" %>
         </div>
         <div class="form-group">
+          <%= label_tag "License" %>
           <%= text_field_tag "blog[license]", nil, class: 'form-control', required: 'true', placeholder: "License. Eg. Creative common license" %>
         </div>
         <div class="form-group">
+          <%= label_tag "Language of Book" %>
           <%= text_field_tag "blog[language]", nil, class: 'form-control', required: 'true', placeholder: "Language written blog. Eg. Tamil, English" %>
         </div>
         <%= submit_tag 'search', class: "btn btn-success pull-left col-md-4 col-md-offset-4", id: "search_button", :"data-loading-text" => "Please wait.." %>
