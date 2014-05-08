@@ -16,18 +16,27 @@ class BlogsController < ApplicationController
 
   def scrap
     blog_hostname = BlogService.new(params[:url]).detect_blog_type
-    blog = Blog.find_or_create_by(name: blog_hostname)
-    if !blog.processing and !blog.downloaded
-      BlogService.new(params[:url]).delay.title_list
-      blog.processing = true
-      blog.save
+    if(blog_hostname)
+      blog = Blog.find_or_create_by(name: blog_hostname)
+      blog.update_attributes(blog_update)
+      if !blog.processing and !blog.downloaded
+        BlogService.new(params[:url]).delay.title_list
+        blog.processing = true
+        blog.save
+      end
     end
-    render :json => blog.to_json
+    render :json => (blog_hostname ? blog.to_json : {error: true}).to_json
   end
 
   def downloaded
     blog_hostname = BlogService.new(params[:url]).detect_blog_type
     blog = Blog.where(name: blog_hostname).last
     render :json => {status: (blog && blog.downloaded ? true : false)}.to_json
+  end
+
+  private
+  
+  def blog_update
+    params.require(:blog).permit(:publisher, :license, :language, :book_name)
   end
 end

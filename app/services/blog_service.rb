@@ -1,20 +1,20 @@
 class BlogService
-  attr_accessor :blog_type
+  attr_accessor :blog_type, :url
   def initialize url
-    @url = url
+    @url = url.scan("http://").empty? ? "http://" + url.downcase : url.downcase
     @domain = nil
-    @blog_type = "wordpress"
+    @blog_type = nil
     detect_blog_type
   end
 
   def detect_blog_type
     hostname = URI.parse(URI.encode(@url)).host.downcase
-    if(hostname[".wordpress."])
+    if(hostname.scan(".wordpress.com").any?)
       @blog_type = "wordpress"
-    elsif(hostname[".blogger."])
-      @blog_type = "blogger"
+    #elsif(hostname.scan(".blogger.com").any?)
+      #@blog_type = "blogger"
     end
-    @domain = hostname
+    @domain =  @blog_type ? hostname : nil
   end
 
   def title_list

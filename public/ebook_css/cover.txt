@@ -1,0 +1,17 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+   <head>
+       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+       <meta name="calibre:cover" content="true"/>
+       <title>Cover</title>
+       <link rel="stylesheet" href="../../../ebook_css/default.css" />
+   </head>
+   <body>
+       <div class="cover">
+            <h2 class="cover">{{BOOK_NAME}}</h2>
+            <p class="cover">Author: {{AUTHOR_NAME}}</p>
+            <p class="cover publisher">Publisher: {{PUBLISHER_NAME}}</p>
+            <p class="cover license">Licensed under: {{LICENSE_NAME}}</p>
+            <p class="cover language">Language: {{LANGUAGE_NAME}}</p>
+        </div>
+   </body>
+</html>

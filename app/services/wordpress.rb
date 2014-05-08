@@ -6,7 +6,7 @@ class Wordpress < BlogWorker
 
   def posts
     posts_result = []
-    json_page = blog_request @url
+    json_page = blog_request(@url)
     found_count = JSON.parse(json_page.body)["found"]
     if(found_count)
       (1..(found_count/20+1)).each do |page|
@@ -15,7 +15,7 @@ class Wordpress < BlogWorker
         posts["posts"].each do |post|
           blog = BlogPost.find_or_create_by(blog_url: post["URL"])
           categories = post["categories"].keys
-          blog.update_attributes({ title: post["title"], content: post["content"], categories: categories, blog_id: @blog.id.to_s })
+          blog.update_attributes({ title: post["title"], content: post["content"], categories: categories, blog_id: @blog.id.to_s, author: post["author"]["name"]  })
         end
       end
       @blog.posts_count = found_count

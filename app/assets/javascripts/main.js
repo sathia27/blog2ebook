@@ -54,8 +54,12 @@ $(document).ready(function(){
     $.ajax({
       url: "/blogs/scrap",
       type: "POST",
-      data: {url: website_url},
+      data: $("#search_form").serialize(),
       success: function(data, textStatus, xhr){
+        if(data.error){
+          alert("Sorry Invalid url.");
+          location.href = document.URL;
+        }
       }
     });
   }

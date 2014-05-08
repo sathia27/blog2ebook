@@ -51,8 +51,23 @@ h1.cover, h2.cover {
   font-family: 'Times New Roman', Times, serif, 'sans serif';
   font-style: italic;
   text-align: center;
+  padding:  10px 0;
+  left: auto;
+  width: 100%;
 }
- 
+p.cover{
+  width: 100%;
+  font-size: 1.1em;
+  text-align: center;
+}
+
+p.source{
+  width: 100%;
+  font-size: 1em;
+  text-align: center;
+  position: absolute;
+  bottom: 5px;
+}
 h1.cover {
   font-size:3.5em;
   margin-down:40px
@@ -70,7 +85,7 @@ h1 {
  
 h2, .mw-headline {
   margin-top: -2px;
-  margin-bottom: 2px;
+  margin-bottom: 10px;
   direction: ltr;
  
 }
@@ -84,28 +99,23 @@ h4.warning {
  
 div.cover {
   text-align: center;
+  width: 100%;
+  height: 100%;
+  background: url("ebook.jpg") no-repeat center;
 }
  
 img.cover {
   margin-left:auto;
   margin-right:auto;
-  margin-top:20px;
   text-align: center;
+  width: 100%;
 }
-blockquote {
-  background-color: #ccc;
-  border-left: 10px solid #ccc;
-  margin: 1.5em 10px;
-  padding: 0.5em 10px;
-}
-blockquote:before {
-  color: #ccc;
-  content: open-quote;
-  font-size: 4em;
-  line-height: 0.1em;
-  margin-right: 0.25em;
-  vertical-align: -0.4em;
-}
-blockquote p {
-  display: inline;
+blockquote,pre {
+  background: #f7f7f7;
+  color: #222;
+  line-height: 18px;
+  margin-bottom: 18px;
+  overflow: auto;
+  font-size: 0.8em;
+  padding: 1.5em;
 }
