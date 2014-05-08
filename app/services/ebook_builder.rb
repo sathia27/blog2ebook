@@ -20,6 +20,7 @@ class EbookBuilder
         cover_image "#{ebooks_html_folder}/ebook.jpg"
         ordered {
           j = 1
+          file "#{ebooks_html_folder}/file0.html"
           posts.each do |post|
             file "#{ebooks_html_folder}/file#{j}.html"
             heading post["title"]
