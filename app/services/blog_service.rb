@@ -21,7 +21,6 @@ class BlogService
     if @blog_type == "wordpress"
       blog = Blog.find_or_create_by(name: @domain)
       Wordpress.new(blog).posts
-      HtmlGenerator.new(blog).generate
     end
   end
 
