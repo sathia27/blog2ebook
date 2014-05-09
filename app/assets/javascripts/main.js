@@ -9,6 +9,8 @@ $(document).ready(function(){
   });
   var table = $('#search-result').DataTable();
   var rowcollection =  table.$(".link_checkbox", {"page": "all"});
+  $(".welcome-note").addClass('animated fadeInLeft');
+  $(".welcome-note-tag").addClass('animated bounceInUp')
   $('#search-result tbody').on( 'change', 'input.link_checkbox', function () {
     $(this).parents('tr').toggleClass('selected');
   });
