@@ -20,7 +20,8 @@ class BlogService
   def title_list
     if @blog_type == "wordpress"
       blog = Blog.find_or_create_by(name: @domain)
-      Wordpress.new(blog).posts
+      posts = Wordpress.new(blog).posts
+      HtmlGenerator.new(posts).generate
     end
   end
 

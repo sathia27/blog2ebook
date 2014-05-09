@@ -9,7 +9,6 @@ class BlogPostsController < ApplicationController
       domain_folder = "public/ebooks/" + domain
       Dir.mkdir domain_folder unless Dir.exists? domain_folder
       Dir.mkdir domain_folder + "/html" unless Dir.exists? domain_folder + "/html"
-      HtmlGenerator.new(posts, domain_folder).generate
       EbookBuilder.new(posts).build
       send_file "#{Rails.public_path}/ebooks/#{domain}/site.epub", :filename => "#{blog.book_name.gsub(" ", "_")}.epub"
     else

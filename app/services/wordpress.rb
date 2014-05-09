@@ -25,7 +25,8 @@ class Wordpress < BlogWorker
       @blog.error_found = true
       @blog.save
     end
-    posts_result
+    @blog.reload
+    @blog.blog_posts
   end
 
 end
