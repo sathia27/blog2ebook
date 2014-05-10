@@ -1,11 +1,10 @@
-class Wordpress < BlogWorker
+class Wordpress 
   def initialize blog 
     @blog = blog
     @url = "https://public-api.wordpress.com/rest/v1/sites/#{blog.name}/posts"
   end
 
   def posts
-    posts_result = []
     json_page = blog_request(@url)
     found_count = JSON.parse(json_page.body)["found"]
     if(found_count)

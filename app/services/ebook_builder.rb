@@ -23,7 +23,7 @@ class EbookBuilder
           file "#{ebooks_html_folder}/file0.html"
           posts.each do |post|
             file "#{ebooks_html_folder}/#{post.id.to_s}.html"
-            Dir.glob("#{post.id.to_s}/*.jpg") { |f| file f }
+            #Dir.glob("#{post.id.to_s}/*.jpg") { |f| file f }
             heading post["title"]
             j += 1
           end
