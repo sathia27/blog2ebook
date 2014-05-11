@@ -11,18 +11,20 @@ class BlogService
     hostname = URI.parse(URI.encode(@url)).host.downcase
     if(hostname.scan(".wordpress.com").any?)
       @blog_type = "wordpress"
-    #elsif(hostname.scan(".blogger.com").any?)
-      #@blog_type = "blogger"
+    elsif(hostname.scan(/.blogspot.[com|in]/).any?)
+      @blog_type = "blogspot"
     end
     @domain =  @blog_type ? hostname : nil
   end
 
   def title_list
+    blog = Blog.find_or_create_by(name: @domain) if @blog_type
     if @blog_type == "wordpress"
-      blog = Blog.find_or_create_by(name: @domain)
       Wordpress.new(blog).posts
-      HtmlGenerator.new(blog).generate
+    elsif  @blog_type == "blogspot"
+      Blogger.new(blog).posts
     end
+    HtmlGenerator.new(blog).generate if @blog_type
   end
 
 end
