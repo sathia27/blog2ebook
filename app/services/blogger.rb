@@ -1,7 +1,5 @@
 require 'open-uri'
-require 'capybara'
 class Blogger
-  include Capybara::DSL
   def initialize blog
     @blog = blog
   end
