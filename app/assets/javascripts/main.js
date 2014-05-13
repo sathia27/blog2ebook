@@ -1,4 +1,5 @@
 $(document).ready(function(){
+  $("#loader").hide();
   $('#search-result').dataTable({
       "columnDefs": [
           {
@@ -45,7 +46,7 @@ $(document).ready(function(){
   });
 
   $("#search_form").submit(function(){
-    $("#search_button").button("loading");
+    $("#loader").show();
     var website_url = $("#search_field").val();
     start_scrapping(website_url);
     setInterval(function(){is_blog_downloaded(website_url);}, 3000);

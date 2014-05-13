@@ -7,6 +7,8 @@ class Wordpress
   def posts
     json_page = blog_request(@url)
     found_count = JSON.parse(json_page.body)["found"]
+    @blog.posts_count = found_count
+    @blog.save
     if(found_count)
       (1..(found_count/20+1)).each do |page|
         posts = blog_request @url+"?page="+page.to_s

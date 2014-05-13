@@ -25,10 +25,13 @@ class Blogger
         begin
           uri = URI(link)
           page_res = Net::HTTP.get_response(URI("http://#{@blog.name}/feeds/posts/default?alt=json&v=2&dynamicviews=1&path=#{uri.path}"))
-          #puts "http://#{@blog.name}/feeds/posts/default?alt=json&v=2&dynamicviews=1&path=#{uri.path}"
-          description = JSON.parse(page_res.body)["feed"]["entry"][0]["content"]["$t"]
-          blog_post = BlogPost.find_or_create_by(blog_url: link)
-          blog_post.update_attributes({ title: title, content: description, blog_id: @blog.id.to_s, author: author  })
+          puts "http://#{@blog.name}/feeds/posts/default?alt=json&v=2&dynamicviews=1&path=#{uri.path}"
+          entry = JSON.parse(page_res.body)["feed"]["entry"][0]["content"]
+          if(entry)
+            description = entry["$t"]
+            blog_post = BlogPost.find_or_create_by(blog_url: link)
+            blog_post.update_attributes({ title: title, content: description, blog_id: @blog.id.to_s, author: author  })
+          end
         rescue => e
           puts e.inspect
         end
