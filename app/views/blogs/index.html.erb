@@ -24,7 +24,7 @@
           <%= text_field_tag "blog[language]", nil, class: 'form-control', required: 'true', placeholder: "Language written blog. Eg. Tamil, English" %>
         </div>
         <%= submit_tag 'Create', class: "btn btn-success pull-left col-md-4 col-md-offset-4", id: "search_button", :"data-loading-text" => "Please wait.." %>
-        <img src="assets/loading.gif" alt="Loading.." width="45" id="loader" />
+        <%= image_tag "loading.gif", alt: "Loading..", width: "45", id: "loader" %>
       <% end %>
   </div>
   <div class="main_content"></div>
