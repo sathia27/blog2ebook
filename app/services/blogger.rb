@@ -91,6 +91,7 @@ class Blogger
       end
     end
     @blog.downloaded = true
+    @blog.category = @category
     @blog.save
     @blog.reload
     @blog.blog_posts
