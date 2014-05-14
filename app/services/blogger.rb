@@ -73,8 +73,6 @@ class Blogger
           blog_posts_response = JSON.parse(blog_posts_json_response.body)
           blog_posts = blog_posts_response["items"]
           page_token = blog_posts_response["nextPageToken"]
-          puts page_token
-          puts blog_posts.count
           if(blog_posts)
             blog_posts.each do |post|
               description = post["content"]

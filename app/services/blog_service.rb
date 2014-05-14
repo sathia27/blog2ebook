@@ -13,12 +13,12 @@ class BlogService
     if(hostname.scan(".wordpress.com").any?)
       @blog_type = "wordpress"
       category = @url.scan(/\/category\/(.*)/)[0]
-      @category = (category && category[0]) ? category[0].gsub("/", "") : nil
     elsif(hostname.scan(/.blogspot.[com|in]/).any?)
       category = @url.scan(/\/search\/label\/(.*)/)[0]
-      @category = (category && category[0]) ? category[0].gsub("/", "") : nil
       @blog_type = "blogspot"
     end
+    @category = (category && category[0]) ? category[0].gsub("/", "") : nil
+    @category = URI.decode(@category) if @category.present?
     @domain =  @blog_type ? hostname : nil
   end
 
