@@ -10,7 +10,7 @@ class Blogger
     all(:css, ".post-content").to_a
   end
 
-  def posts
+  def posts_rss
     #items(author/displayName,blog,content,customMetaData,id,images,kind,labels,selfLink,title,titleLink,url)
     res = Net::HTTP.get_response(URI("http://#{@blog.name}/feeds/posts/default?alt=json&start-index=1&max-results=500#{(@category ? '&category='+@category : '')}"))
     res_body = JSON.parse(res.body)
@@ -30,8 +30,7 @@ class Blogger
           entry = JSON.parse(page_res.body)["feed"]["entry"][0]["content"]
           if(entry)
             description = entry["$t"]
-            blog_post = BlogPost.find_or_create_by(blog_id: @blog.id)
-            blog_post.update_attributes({ title: title, content: description, author: author, blog_url: link })
+            BlogPost.create( title: title, content: description, author: author, blog_url: link, blog_id: @blog.id )
           end
         rescue => e
           puts e.inspect
@@ -46,10 +45,10 @@ class Blogger
     @blog.blog_posts
   end
 
-  def posts_api
+  def posts
     #via api
     api_key = "AIzaSyDKoS6fA-WtesuAA9wu3tVqMm5TWqDU8fg"
-    blog_stat_url = "https://www.googleapis.com/blogger/v3/blogs/byurl?url=#{CGI.escape("http://"+@blog.name)}&key=#{api_key}"
+    blog_stat_url = "https://www.googleapis.com/blogger/v3/blogs/byurl?url=#{CGI.escape("http://"+@blog.name)}&key=#{api_key}&maxResults=100"
     puts blog_stat_url
     blog_stat_json_response = Net::HTTP.get_response(URI(blog_stat_url))
     blog_stat_response = JSON.parse(blog_stat_json_response.body)
@@ -62,19 +61,30 @@ class Blogger
       page_token=nil
       first_page=true
       loop do
-        blog_url = "https://www.googleapis.com/blogger/v3/blogs/6704233987564306738/posts?key=#{api_key}&maxResults=100&fields=items(author/displayName,blog,content,customMetaData,id,images,kind,labels,selfLink,title,titleLink,url)"
+        blog_url = "https://www.googleapis.com/blogger/v3/blogs/#{blog_id}/posts?key=#{api_key}"
+        puts blog_url
         if(page_token.present? || first_page)
-          blog_url = blog_url+="&pageToken=#{page_token}"
+          puts page_token.inspect
+          puts first_page.inspect
+          blog_url = blog_url+="&pageToken=#{page_token}" if page_token.present?
           puts blog_url
-          blog_posts_response = Net::HTTP.get_response(URI(blog_url))
-          blog_posts = JSON.parse(blog_posts_response.body)["items"]
-          blog_posts.each do |post|
-            description = post["content"]
-            link = post["url"]
-            title = post["title"]
-            blog_post = BlogPost.find_or_create_by(blog_id: @blog.id)
-            blog_post.update_attributes({title: title, content: description, author: author, blog_url: link})
+          blog_posts_json_response = Net::HTTP.get_response(URI(blog_url))
+          blog_posts_response = JSON.parse(blog_posts_json_response.body)
+          blog_posts = blog_posts_response["items"]
+          page_token = blog_posts_response["nextPageToken"]
+          puts page_token
+          puts blog_posts.count
+          if(blog_posts)
+            blog_posts.each do |post|
+              description = post["content"]
+              link = post["url"]
+              title = post["title"]
+              author = post["author"]["displayName"]
+              BlogPost.create( title: title, content: description, author: author, blog_url: link, blog_id: @blog.id )
+            end
           end
+        else
+          break
         end
         first_page = false
       end

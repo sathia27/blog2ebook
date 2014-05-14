@@ -16,9 +16,8 @@ class Wordpress
         posts = blog_request @url+"#{(@category ? '&' : '?')}page="+page.to_s
         posts = JSON.parse(posts.body)
         posts["posts"].each do |post|
-          blog = BlogPost.find_or_create_by(blog_url: post["URL"])
           categories = post["categories"].keys
-          blog.update_attributes({ title: post["title"], content: post["content"], categories: categories, blog_id: @blog.id.to_s, author: post["author"]["name"]  })
+          BlogPost.create(title: post["title"], content: post["content"], categories: categories, blog_id: @blog.id.to_s, author: post["author"]["name"], blog_url: post["URL"])
         end
       end
       @blog.posts_count = found_count
