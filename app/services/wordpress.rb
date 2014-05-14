@@ -1,5 +1,5 @@
 class Wordpress 
-  def initialize blog, category
+  def initialize blog, category=nil
     @blog = blog
     @url = "https://public-api.wordpress.com/rest/v1/sites/#{blog.name}/posts#{(category ? '?category='+category : '')}"
     @category = category
