@@ -23,6 +23,7 @@ gem 'delayed_job_mongoid', git: 'git://github.com/collectiveidea/delayed_job_mon
 gem 'daemons'
 gem "sanitize"
 gem "rmagick"
+gem "kaminari"
 # gem 'therubyracer',  platforms: :ruby
 
 gem 'jquery-rails'

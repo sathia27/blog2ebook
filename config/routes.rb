@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   # root 'welcome#index'
   root 'blogs#index'
   get "blogs/posts"
+  get 'blogs/downloads'
   get "blogs/downloaded"
   post "blogs/scrap"
   # Example of regular route:

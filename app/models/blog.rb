@@ -13,5 +13,7 @@ class Blog
   field :category
   index({ name: 1 }, { name: "name_index" })
   
+  scope :downloaded, ->{ where(:downloaded => true ) }
+
   has_many :blog_posts
 end

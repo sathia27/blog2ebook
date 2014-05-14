@@ -1,0 +1,18 @@
+<h2>Downloads</h2>
+<table class="table table-responsive table-striped">
+  <tr>
+      <th>Url</th>
+      <th>Post count</th>
+      <th>Category</th>
+      <th>Downloaded on</th>
+  </tr>
+  <% @blogs.each do |blog| %>
+    <tr>
+      <td><%= blog.name %></td>
+      <td><%= blog.posts_count %></td>
+      <td><%= blog.category %></td>
+      <td><%= blog.created_at.strftime("%d-%m-%Y") %></td>
+    </tr>
+  <% end %>
+</table>
+<%= paginate @blogs %>

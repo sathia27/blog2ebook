@@ -20,6 +20,10 @@ class BlogsController < ApplicationController
     end
   end
 
+  def downloads
+    @blogs = Blog.downloaded.desc(:created_at).page(params[:page]).per(10)
+  end
+
   def scrap
     blog_hostname = BlogService.new(params[:url]).detect_blog_type
     if(blog_hostname)
