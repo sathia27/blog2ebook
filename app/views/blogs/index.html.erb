@@ -23,8 +23,11 @@
           <%= label_tag "Language of Book" %>
           <%= text_field_tag "blog[language]", nil, class: 'form-control', required: 'true', placeholder: "Language written blog. Eg. Tamil, English" %>
         </div>
-        <%= submit_tag 'Create', class: "btn btn-success pull-left col-md-4 col-md-offset-4", id: "search_button", :"data-loading-text" => "Please wait.." %>
-        <%= image_tag "loading.gif", alt: "Loading..", width: "45", id: "loader" %>
+        <div class="overflow-hidden">
+          <%= submit_tag 'Create', class: "btn btn-success pull-left col-md-4 col-md-offset-4", id: "search_button", :"data-loading-text" => "Please wait.." %>
+          <%= image_tag "loading.gif", alt: "Loading..", width: "45", id: "loader" %>
+        </div>
+        <p id="list_post"> or <%= link_to "List posts", "#", :id => "redirect_to_posts" %> (If already downloaded) </p>
       <% end %>
   </div>
   <div class="main_content"></div>

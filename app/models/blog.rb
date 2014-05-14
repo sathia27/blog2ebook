@@ -10,7 +10,8 @@ class Blog
   field :license
   field :book_name
   field :language
-  index({ name: 1 }, { unique: true, name: "name_index" })
+  field :category
+  index({ name: 1 }, { name: "name_index" })
   
   has_many :blog_posts
 end

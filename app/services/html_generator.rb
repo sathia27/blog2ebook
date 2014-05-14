@@ -7,6 +7,7 @@ class HtmlGenerator
   end
 
   def generate
+    return false if @blog.blog_posts.count == 0
     i = 1
     Dir.mkdir @domain_folder unless Dir.exists? @domain_folder
     Dir.mkdir @domain_folder + "/html" unless Dir.exists? @domain_folder + "/html"

@@ -6,7 +6,7 @@ class CoverPageGenerator
   end
 
   def generate
-    #blog_text = "#{@blog.book_name}\n\nPublisher: #{@blog.publisher}\nLicense: #{@blog.license}\nLanguage: #{@blog.language}"
+    return false if(@blog.blog_posts.count == 0)
     img =  Magick::ImageList.new("public/ebook_css/ebook.jpg")
     canvas = Magick::ImageList.new
     canvas.new_image(450, 700, Magick::TextureFill.new(img))

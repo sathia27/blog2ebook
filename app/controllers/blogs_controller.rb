@@ -6,8 +6,14 @@ class BlogsController < ApplicationController
   def posts
     @posts = {}
     if params[:url]
-      blog_hostname = BlogService.new(params[:url]).detect_blog_type
-      blog = Blog.where(name: blog_hostname).first
+      blog_service = BlogService.new(params[:url])
+      blog_hostname = blog_service.detect_blog_type
+      category = blog_service.category
+      if(category)
+        blog = Blog.where(name: blog_hostname, category: category).last
+      else
+        blog = Blog.where(name: blog_hostname, category: nil).last
+      end
       if blog && blog.downloaded
         @posts = blog.blog_posts
       end
@@ -17,7 +23,7 @@ class BlogsController < ApplicationController
   def scrap
     blog_hostname = BlogService.new(params[:url]).detect_blog_type
     if(blog_hostname)
-      blog = Blog.find_or_create_by(name: blog_hostname)
+      blog = Blog.create(name: blog_hostname)
       blog.update_attributes(blog_update)
       if !blog.processing and !blog.downloaded
         BlogService.new(params[:url]).delay.title_list

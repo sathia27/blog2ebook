@@ -1,7 +1,8 @@
 require 'open-uri'
 class Blogger
-  def initialize blog
+  def initialize blog, category
     @blog = blog
+    @category = category
   end
   
   def post link
@@ -10,12 +11,12 @@ class Blogger
   end
 
   def posts
-    res = Net::HTTP.get_response(URI("http://#{@blog.name}/feeds/posts/default?alt=json&start-index=1&max-results=500"))
+    res = Net::HTTP.get_response(URI("http://#{@blog.name}/feeds/posts/default?alt=json&start-index=1&max-results=500#{(@category ? '&category='+@category : '')}"))
     res_body = JSON.parse(res.body)
     total_post = res_body["feed"]["openSearch$totalResults"]["$t"]
     pages = (1..total_post.to_i).step(500).to_a
     pages.each do |page|
-      res = Net::HTTP.get_response(URI("http://#{@blog.name}/feeds/posts/default?alt=json&start-index=#{page}&max-results=500"))
+      res = Net::HTTP.get_response(URI("http://#{@blog.name}/feeds/posts/default?alt=json&start-index=#{page}&max-results=500#{(@category ? '&category='+@category : '')}"))
       res_body = JSON.parse(res.body)
       entries = res_body["feed"]["entry"].collect { |entry| [entry["link"].last["href"], entry["author"][0]["name"]["$t"], entry["title"]["$t"]]}
       entries.each do |entry|
@@ -38,6 +39,7 @@ class Blogger
       end
     end
     @blog.posts_count = total_post
+    @blog.category = @category if @category
     @blog.downloaded = true
     @blog.save
     @blog.reload
