@@ -66,7 +66,8 @@ class Blogger
         if(page_token.present? || first_page)
           puts page_token.inspect
           puts first_page.inspect
-          blog_url = blog_url+="&pageToken=#{page_token}" if page_token.present?
+          blog_url += "&pageToken=#{page_token}" if page_token.present?
+          blog_url += "&labels=#{@category}" if @category.present?
           puts blog_url
           blog_posts_json_response = Net::HTTP.get_response(URI(blog_url))
           blog_posts_response = JSON.parse(blog_posts_json_response.body)
