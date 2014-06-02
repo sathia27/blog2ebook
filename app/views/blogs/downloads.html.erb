@@ -1,10 +1,17 @@
 <h2>Downloads</h2>
-<table class="table table-responsive table-striped">
+<form action="/blogs/downloads" method="GET" class="form">
+  <div class="form-group">
+    <input type="search" class="form-control" name="url" placeholder="Search for blog to download" />
+  </div>
+  <%= submit_tag 'Search', class: "btn btn-success" %>
+</form>
+<table class="table table-responsive table-striped download_list">
   <tr>
       <th>Url</th>
       <th>Post count</th>
       <th>Category</th>
       <th>Downloaded on</th>
+      <th>Download Link</th>
   </tr>
   <% @blogs.each do |blog| %>
     <tr>
@@ -12,6 +19,7 @@
       <td><%= blog.posts_count %></td>
       <td><%= blog.category %></td>
       <td><%= blog.created_at.strftime("%d-%m-%Y") %></td>
+      <td><a href="/blogs/posts?url=<%= blog.name %>" data-no-turbolink>Download</a></td>
     </tr>
   <% end %>
 </table>

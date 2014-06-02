@@ -27,7 +27,6 @@
           <%= submit_tag 'Create', class: "btn btn-success pull-left col-md-4 col-md-offset-4", id: "search_button", :"data-loading-text" => "Please wait.." %>
           <%= image_tag "loading.gif", alt: "Loading..", width: "45", id: "loader" %>
         </div>
-        <p class="list_post"> or <%= link_to "List posts", "#", :id => "redirect_to_posts" %> (If already downloaded) </p>
       <% end %>
      <p class="list_post" ><%= link_to "List of downloads", blogs_downloads_path %></p>
   </div>

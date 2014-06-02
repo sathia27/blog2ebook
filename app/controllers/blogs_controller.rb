@@ -21,7 +21,9 @@ class BlogsController < ApplicationController
   end
 
   def downloads
-    @blogs = Blog.downloaded.desc(:created_at).page(params[:page]).per(10)
+    blog_hostname = BlogService.new(params[:url]).detect_blog_type if params[:url]
+    blog = blog_hostname ? Blog.where(name: blog_hostname) : Blog
+    @blogs = blog.downloaded.desc(:created_at).page(params[:page]).per(10)
   end
 
   def scrap
