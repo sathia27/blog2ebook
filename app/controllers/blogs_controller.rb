@@ -10,12 +10,12 @@ class BlogsController < ApplicationController
       blog_hostname = blog_service.detect_blog_type
       category = blog_service.category
       if(category)
-        blog = Blog.where(name: blog_hostname, category: category).last
+        @blog = Blog.where(name: blog_hostname, category: category).last
       else
-        blog = Blog.where(name: blog_hostname, category: nil).last
+        @blog = Blog.where(name: blog_hostname, category: nil).last
       end
-      if blog && blog.downloaded
-        @posts = blog.blog_posts
+      if @blog && @blog.downloaded
+        @posts = @blog.blog_posts
       end
     end
   end

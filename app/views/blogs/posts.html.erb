@@ -1,6 +1,12 @@
 <h1>Posts</h1>
-<% if(@posts.count > 0) %>
-  <p>There are <%= @posts.count %> posts. You can select post and download as epub file</p>
+<% if(@blog && !@blog.downloaded) %>
+  <div class="alert alert-danger">Processing.. Please wait until whole blogs downloaded</div>
+<% end %>
+<div class="alert"></div>
+  <% if(@posts.count > 0) %>
+    <% if(@blog && @blog.downloaded) %>
+      <p>Total Posts: <%= @posts.count %> posts. Select and download</p>
+    <% end %>
   <form method="POST" action="/blog_posts/generate_epub" id="download_epub">
     <input type="hidden" name="ids" id="post_ids" />
     <input type="submit" id="results" class="btn btn-success" value="Download as Epub" />

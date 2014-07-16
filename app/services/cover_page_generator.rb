@@ -1,5 +1,4 @@
 require "RMagick"
-include Magick
 class CoverPageGenerator
   def initialize blog
     @blog = blog
@@ -11,10 +10,11 @@ class CoverPageGenerator
     canvas = Magick::ImageList.new
     canvas.new_image(450, 700, Magick::TextureFill.new(img))
     text = Magick::Draw.new
-    text.font_family = 'helvetica'
+    text.font = "public/ta.ttf"
     text.gravity = Magick::CenterGravity
     text.annotate(canvas, 450,300,0,0, @blog.book_name) {
       self.fill = '#fff'
+      self.encoding = "UTF-8"
       self.pointsize = 30
     }
     text.annotate(canvas, 450,400,0,0, "Publisher: #{@blog.publisher}") {

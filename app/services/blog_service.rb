@@ -29,6 +29,8 @@ class BlogService
     elsif  @blog_type == "blogspot"
       Blogger.new(blog, @category).posts
     end
+    puts "!!!!!"
+    puts @blog_type.inspect
     HtmlGenerator.new(blog).generate if @blog_type
   end
 
